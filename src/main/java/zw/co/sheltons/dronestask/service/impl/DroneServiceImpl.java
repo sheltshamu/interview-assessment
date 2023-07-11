@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import zw.co.sheltons.dronestask.exceptions.DroneNotFoundException;
 import zw.co.sheltons.dronestask.exceptions.DuplicateItemException;
 import zw.co.sheltons.dronestask.model.Drone;
+import zw.co.sheltons.dronestask.model.State;
 import zw.co.sheltons.dronestask.repository.DroneRepository;
 import zw.co.sheltons.dronestask.request.DroneRequest;
 import zw.co.sheltons.dronestask.service.DroneService;
@@ -41,7 +42,7 @@ public class DroneServiceImpl implements DroneService {
 
     @Override
     public List<DroneResponse> findAvailableDrones() {
-      return droneRepository.findDronesByState_Idle()
+      return droneRepository.findDronesByState(State.IDLE)
               .stream().map(DroneResponse::new)
               .collect(Collectors.toList());
     }
