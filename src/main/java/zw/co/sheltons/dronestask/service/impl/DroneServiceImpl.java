@@ -47,7 +47,7 @@ public class DroneServiceImpl implements DroneService {
     }
 
     @Override
-    public BatteryLevelResponse checkBatterLevel(Long droneId) {
+    public BatteryLevelResponse checkBatteryLevel(Long droneId) {
         Drone drone = droneRepository.findById(droneId)
                 .orElseThrow(()-> new DroneNotFoundException("Drone with id {0} not found",droneId));
         return new BatteryLevelResponse(drone.getBatteryLevel());

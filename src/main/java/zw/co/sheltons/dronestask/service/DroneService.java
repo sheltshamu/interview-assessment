@@ -9,5 +9,5 @@ import java.util.List;
 public interface DroneService {
     DroneResponse register(DroneRequest droneRequest);
     List<DroneResponse> findAvailableDrones();
-    BatteryLevelResponse checkBatterLevel(Long droneId);
+    BatteryLevelResponse checkBatteryLevel(Long droneId);
 }
