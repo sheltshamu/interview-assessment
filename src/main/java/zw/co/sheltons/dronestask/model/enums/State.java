@@ -1,4 +1,4 @@
-package zw.co.sheltons.dronestask.model;
+package zw.co.sheltons.dronestask.model.enums;
 
 public enum State {
     IDLE,
