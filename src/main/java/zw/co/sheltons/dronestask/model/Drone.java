@@ -3,6 +3,8 @@ package zw.co.sheltons.dronestask.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import zw.co.sheltons.dronestask.model.enums.Model;
+import zw.co.sheltons.dronestask.model.enums.State;
 
 
 @Entity
@@ -13,7 +15,7 @@ import lombok.*;
 @NoArgsConstructor
 @Table(name = "drone")
 public class Drone extends BaseEntity {
-    @Column(name = "serial_number", nullable = false, unique = true, length = 80)
+    @Column(name = "serial_number", unique = true, length = 80)
     private String serialNumber;
     @Enumerated(EnumType.STRING)
     private Model model;
@@ -21,5 +23,9 @@ public class Drone extends BaseEntity {
     private int batteryLevel;
     @Enumerated(EnumType.STRING)
     private State state;
+    @Column(name = "weight_limit",nullable = false)
+    private int weightLimit;
+    @Column(name = "current_weight")
+    private int currentWeight;
 
 }
