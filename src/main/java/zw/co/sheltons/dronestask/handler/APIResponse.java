@@ -3,6 +3,8 @@ package zw.co.sheltons.dronestask.handler;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -12,4 +14,5 @@ import lombok.*;
 public class APIResponse<T> {
     private String status;
     private T body;
+    private List<ErrorDTO> errors;
 }
