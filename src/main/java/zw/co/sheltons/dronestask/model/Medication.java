@@ -11,16 +11,16 @@ import lombok.*;
 @NoArgsConstructor
 @Table(name = "medication")
 public class Medication extends BaseEntity{
-    @Column(nullable = false,length = 80)
+    @Column(nullable = false,length = 100)
     private String name;
     @Column(nullable = false)
     private int weight;
     @Column(nullable = true, length = 20)
     private String code;
-    @Column(name = "image_url", nullable = false)
+    @Column(name = "image_url")
     private String imageUrl;
     @ManyToOne
-    @JoinColumn(name = "drone_id",nullable = false)
+    @JoinColumn(name = "drone_id")
     private Drone drone;
 
 }
