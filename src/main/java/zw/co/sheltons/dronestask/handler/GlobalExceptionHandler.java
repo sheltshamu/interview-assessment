@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import zw.co.sheltons.dronestask.exceptions.DroneNotFoundException;
+import zw.co.sheltons.dronestask.exceptions.ItemNotFoundException;
 import zw.co.sheltons.dronestask.exceptions.DuplicateItemException;
 import zw.co.sheltons.dronestask.exceptions.BadRequestException;
 
@@ -30,12 +30,12 @@ public class GlobalExceptionHandler {
         return apiResponse;
     }
 
-    @ExceptionHandler(DroneNotFoundException.class)
+    @ExceptionHandler(ItemNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public APIResponse<?> droneNotFoundException(DroneNotFoundException droneNotFoundException){
+    public APIResponse<?> droneNotFoundException(ItemNotFoundException itemNotFoundException){
         APIResponse<?> apiResponse = new APIResponse<>();
         apiResponse.setStatus("NOT FOUND");
-        apiResponse.setErrors(Collections.singletonList(new ErrorDTO("",droneNotFoundException.getMessage())));
+        apiResponse.setErrors(Collections.singletonList(new ErrorDTO("", itemNotFoundException.getMessage())));
         return apiResponse;
     }
 

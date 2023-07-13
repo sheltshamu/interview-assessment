@@ -46,8 +46,8 @@ public class DispatchController {
     }
 
     @PostMapping("/drone/load")
-    public ResponseEntity<DroneDTO> loadDrone(@RequestBody MedicationRequest medicationRequest,@RequestParam("image")MultipartFile imageFile){
-        DroneResponse droneResponse = droneService.loadDrone(medicationRequest,imageFile);
+    public ResponseEntity<DroneDTO> loadDrone(@RequestBody MedicationRequest medicationRequest){
+        DroneResponse droneResponse = droneService.loadDrone(medicationRequest);
         DroneDTO droneDTO = DroneDTO.fromDTO(droneResponse.drone());
         return ResponseEntity.ok(droneDTO);
     }

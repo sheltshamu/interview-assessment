@@ -2,29 +2,26 @@ package zw.co.sheltons.dronestask.service.impl.drone;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import zw.co.sheltons.dronestask.exceptions.DroneNotFoundException;
-import zw.co.sheltons.dronestask.exceptions.DuplicateItemException;
+import zw.co.sheltons.dronestask.dto.BatteryLevelDTO;
 import zw.co.sheltons.dronestask.exceptions.BadRequestException;
+import zw.co.sheltons.dronestask.exceptions.DuplicateItemException;
+import zw.co.sheltons.dronestask.exceptions.ItemNotFoundException;
 import zw.co.sheltons.dronestask.model.Drone;
 import zw.co.sheltons.dronestask.model.Medication;
 import zw.co.sheltons.dronestask.model.enums.State;
 import zw.co.sheltons.dronestask.repository.DroneRepository;
 import zw.co.sheltons.dronestask.repository.MedicationRepository;
 import zw.co.sheltons.dronestask.request.DroneRequest;
-import zw.co.sheltons.dronestask.dto.BatteryLevelDTO;
-import zw.co.sheltons.dronestask.service.DroneService;
 import zw.co.sheltons.dronestask.request.MedicationRequest;
+import zw.co.sheltons.dronestask.service.DroneService;
+import zw.co.sheltons.dronestask.service.ImageService;
+import zw.co.sheltons.dronestask.service.impl.image.ImageResponse;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,11 +29,13 @@ import java.util.stream.Collectors;
 public class DroneServiceImpl implements DroneService {
     private final DroneRepository droneRepository;
     private final MedicationRepository medicationRepository;
+    private final ImageService imageService;
     private final static int BATTERY_LOW_LEVEL = 25;
 
-    public DroneServiceImpl(DroneRepository droneRepository, MedicationRepository medicationRepository) {
+    public DroneServiceImpl(DroneRepository droneRepository, MedicationRepository medicationRepository, ImageService imageService) {
         this.droneRepository = droneRepository;
         this.medicationRepository = medicationRepository;
+        this.imageService = imageService;
     }
 
     @Override
@@ -73,7 +72,8 @@ public class DroneServiceImpl implements DroneService {
 
     @Transactional
     @Override
-    public DroneResponse loadDrone(MedicationRequest medicationRequest,MultipartFile multipartFile) {
+    public DroneResponse loadDrone(MedicationRequest medicationRequest) {
+        ImageResponse imageResponse = imageService.uploadImage(medicationRequest.getImage());
         Drone drone = findById(medicationRequest.getDroneId());
         validateDroneCondition(drone, medicationRequest.getWeight());
         Medication medication = new Medication();
@@ -81,8 +81,7 @@ public class DroneServiceImpl implements DroneService {
         medication.setName(medicationRequest.getName());
         medication.setCode(medicationRequest.getCode().toUpperCase());
         medication.setWeight(medicationRequest.getWeight());
-        medication.setImageUrl(medicationRequest.getImageUrl());
-        uploadImage(multipartFile,medication);
+        medication.setImage(imageResponse.image());
         medicationRepository.save(medication);
         drone.setCurrentWeight(drone.getCurrentWeight() + medicationRequest.getWeight());
         stateChanges(drone);
@@ -91,7 +90,7 @@ public class DroneServiceImpl implements DroneService {
 
     private Drone findById(Long droneId) {
         return droneRepository.findById(droneId)
-                .orElseThrow(() -> new DroneNotFoundException("Drone with id {0} not found", droneId));
+                .orElseThrow(() -> new ItemNotFoundException("Drone with id {0} not found", droneId));
 
     }
 
@@ -119,23 +118,5 @@ public class DroneServiceImpl implements DroneService {
                     drone.getWeightLimit());
         }
     }
-
-    private void uploadImage(MultipartFile imageFile,Medication medication){
-        log.info("DroneServiceImpl:uploadImage started executing uploadImage");
-        if (!imageFile.isEmpty()) {
-            try {
-                String originalFilename = imageFile.getOriginalFilename();
-                String fileName = UUID.randomUUID().toString() + "_" + originalFilename;
-                Path filePath = Paths.get("uploads", fileName);
-                Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-                medication.setImageUrl(fileName);
-            } catch (IOException e) {
-                log.info("DroneServiceImpl:uploadImage failed to upload the image");
-                throw new BadRequestException(e.getMessage());
-            }
-        }
-        log.info("DroneServiceImpl:uploadImage finished executing uploadImage");
-    }
-
 
 }
