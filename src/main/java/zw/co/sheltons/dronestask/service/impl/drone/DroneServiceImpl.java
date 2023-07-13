@@ -2,9 +2,7 @@ package zw.co.sheltons.dronestask.service.impl.drone;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import zw.co.sheltons.dronestask.dto.BatteryLevelDTO;
 import zw.co.sheltons.dronestask.exceptions.BadRequestException;
 import zw.co.sheltons.dronestask.exceptions.DuplicateItemException;

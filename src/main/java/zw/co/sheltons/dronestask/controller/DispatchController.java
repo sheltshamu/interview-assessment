@@ -2,15 +2,14 @@ package zw.co.sheltons.dronestask.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import zw.co.sheltons.dronestask.dto.BatteryLevelDTO;
 import zw.co.sheltons.dronestask.dto.DroneDTO;
 import zw.co.sheltons.dronestask.dto.MedicationDTO;
 import zw.co.sheltons.dronestask.request.DroneRequest;
+import zw.co.sheltons.dronestask.request.MedicationRequest;
 import zw.co.sheltons.dronestask.service.DroneService;
 import zw.co.sheltons.dronestask.service.MedicationService;
-import zw.co.sheltons.dronestask.dto.BatteryLevelDTO;
 import zw.co.sheltons.dronestask.service.impl.drone.DroneResponse;
-import zw.co.sheltons.dronestask.request.MedicationRequest;
 
 import java.util.List;
 

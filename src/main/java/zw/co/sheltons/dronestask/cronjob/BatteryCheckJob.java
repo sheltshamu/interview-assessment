@@ -18,7 +18,6 @@ import java.util.List;
 @Slf4j
 public class BatteryCheckJob {
     private final DroneRepository droneRepository;
-    private final static String DELIMITER="##";
 
     public BatteryCheckJob(DroneRepository droneRepository) {
         this.droneRepository = droneRepository;

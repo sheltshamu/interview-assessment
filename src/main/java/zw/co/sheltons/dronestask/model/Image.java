@@ -5,6 +5,7 @@ import lombok.*;
 
 @Setter
 @Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "image")
