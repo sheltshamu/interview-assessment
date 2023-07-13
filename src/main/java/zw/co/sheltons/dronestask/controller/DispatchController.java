@@ -14,7 +14,7 @@ import zw.co.sheltons.dronestask.service.impl.drone.DroneResponse;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/v1")
 public class DispatchController {
     private final DroneService droneService;
     private final MedicationService medicationService;
