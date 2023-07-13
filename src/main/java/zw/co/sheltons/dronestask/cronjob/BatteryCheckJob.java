@@ -1,7 +1,5 @@
 package zw.co.sheltons.dronestask.cronjob;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.core.JsonFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -9,6 +7,8 @@ import zw.co.sheltons.dronestask.exceptions.BadRequestException;
 import zw.co.sheltons.dronestask.model.Drone;
 import zw.co.sheltons.dronestask.repository.DroneRepository;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Instant;
@@ -38,14 +38,14 @@ public class BatteryCheckJob {
 
     public void auditLogging(Drone drone) {
         log.info("BatteryCheckJob::auditLogging  writing in a csv file");
-        StringBuilder auditLogEntryBuilder = new StringBuilder();
-        auditLogEntryBuilder.append(drone.getSerialNumber()).append(DELIMITER);
-        auditLogEntryBuilder.append(Instant.now().toString()).append(DELIMITER);
-        auditLogEntryBuilder.append(drone.getBatteryLevel());
-
+        JsonObject logEntry = Json.createObjectBuilder()
+                .add("serialNumber",drone.getSerialNumber())
+                .add("batteryLevel",drone.getBatteryLevel())
+                .add("date",Instant.now().toString())
+                .build();
         try {
             FileWriter csvWriter = new FileWriter("audit_log.csv", true);
-            csvWriter.write(auditLogEntryBuilder.toString() + "\n");
+            csvWriter.write(logEntry.toString() + "\n");
             csvWriter.flush();
             csvWriter.close();
             log.info("BatteryCheckJob::auditLogging  finished writing in a csv file");
@@ -54,7 +54,5 @@ public class BatteryCheckJob {
             throw new BadRequestException(e.getMessage());
         }
     }
-
-
 
 }

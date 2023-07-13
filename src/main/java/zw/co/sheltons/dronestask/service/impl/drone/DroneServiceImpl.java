@@ -11,8 +11,9 @@ import zw.co.sheltons.dronestask.model.enums.State;
 import zw.co.sheltons.dronestask.repository.DroneRepository;
 import zw.co.sheltons.dronestask.repository.MedicationRepository;
 import zw.co.sheltons.dronestask.request.DroneRequest;
+import zw.co.sheltons.dronestask.dto.BatteryLevelDTO;
 import zw.co.sheltons.dronestask.service.DroneService;
-import zw.co.sheltons.dronestask.service.impl.medication.MedicationRequest;
+import zw.co.sheltons.dronestask.request.MedicationRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -56,9 +57,9 @@ public class DroneServiceImpl implements DroneService {
     }
 
     @Override
-    public BatteryLevelResponse checkBatteryLevel(Long droneId) {
+    public BatteryLevelDTO checkBatteryLevel(Long droneId) {
         Drone drone = findById(droneId);
-        return new BatteryLevelResponse(drone.getBatteryLevel(), drone.getSerialNumber());
+        return new BatteryLevelDTO(drone.getBatteryLevel(), drone.getSerialNumber());
     }
 
     @Transactional

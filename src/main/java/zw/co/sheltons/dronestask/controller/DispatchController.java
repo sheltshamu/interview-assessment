@@ -7,9 +7,9 @@ import zw.co.sheltons.dronestask.dto.MedicationDTO;
 import zw.co.sheltons.dronestask.request.DroneRequest;
 import zw.co.sheltons.dronestask.service.DroneService;
 import zw.co.sheltons.dronestask.service.MedicationService;
-import zw.co.sheltons.dronestask.service.impl.drone.BatteryLevelResponse;
+import zw.co.sheltons.dronestask.dto.BatteryLevelDTO;
 import zw.co.sheltons.dronestask.service.impl.drone.DroneResponse;
-import zw.co.sheltons.dronestask.service.impl.medication.MedicationRequest;
+import zw.co.sheltons.dronestask.request.MedicationRequest;
 
 import java.util.List;
 
@@ -39,8 +39,8 @@ public class DispatchController {
     }
 
     @GetMapping("/{droneId}/battery")
-    public ResponseEntity<BatteryLevelResponse> checkBatteryLevel(@PathVariable Long droneId){
-        BatteryLevelResponse response = droneService.checkBatteryLevel(droneId);
+    public ResponseEntity<BatteryLevelDTO> checkBatteryLevel(@PathVariable Long droneId){
+        BatteryLevelDTO response = droneService.checkBatteryLevel(droneId);
         return ResponseEntity.ok(response);
     }
 

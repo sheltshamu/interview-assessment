@@ -1,4 +1,4 @@
-package zw.co.sheltons.dronestask.service.impl.medication;
+package zw.co.sheltons.dronestask.request;
 
 import lombok.Getter;
 import lombok.Setter;
