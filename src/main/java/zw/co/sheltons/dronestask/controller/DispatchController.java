@@ -2,6 +2,7 @@ package zw.co.sheltons.dronestask.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import zw.co.sheltons.dronestask.dto.DroneDTO;
 import zw.co.sheltons.dronestask.dto.MedicationDTO;
 import zw.co.sheltons.dronestask.request.DroneRequest;
@@ -45,8 +46,8 @@ public class DispatchController {
     }
 
     @PostMapping("/drone/load")
-    public ResponseEntity<DroneDTO> loadDrone(@RequestBody MedicationRequest medicationRequest){
-        DroneResponse droneResponse = droneService.loadDrone(medicationRequest);
+    public ResponseEntity<DroneDTO> loadDrone(@RequestBody MedicationRequest medicationRequest,@RequestParam("image")MultipartFile imageFile){
+        DroneResponse droneResponse = droneService.loadDrone(medicationRequest,imageFile);
         DroneDTO droneDTO = DroneDTO.fromDTO(droneResponse.drone());
         return ResponseEntity.ok(droneDTO);
     }
