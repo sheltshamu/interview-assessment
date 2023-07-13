@@ -10,6 +10,7 @@ import java.util.zip.Inflater;
 public class ImageUtil {
 
     public static byte[] compressImage(byte [] content) {
+        log.info("ImageUtil::compressImage started compressing the image");
         Deflater deflater = new Deflater();
         deflater.setLevel(Deflater.BEST_COMPRESSION);
         deflater.setInput(content);
@@ -24,12 +25,15 @@ public class ImageUtil {
         try {
             outputStream.close();
         } catch (Exception ex) {
+            log.info("ImageUtil::compressImage failed to the image");
             log.error(ex.getMessage());
         }
+        log.info("ImageUtil::compressImage finished compressing the image");
         return outputStream.toByteArray();
     }
 
     public static byte[] decompressImage(byte[] data) {
+        log.info("ImageUtil::decompressImage started decompressing the image");
         Inflater inflater = new Inflater();
         inflater.setInput(data);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
@@ -41,8 +45,10 @@ public class ImageUtil {
             }
             outputStream.close();
         } catch (Exception ex) {
+            log.info("ImageUtil::decompressImage failed decompressing the image");
             log.error(ex.getMessage());
         }
+        log.info("ImageUtil::decompressImage started decompressing the image");
         return outputStream.toByteArray();
     }
 }

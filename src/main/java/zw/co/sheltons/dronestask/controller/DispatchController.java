@@ -1,5 +1,6 @@
 package zw.co.sheltons.dronestask.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zw.co.sheltons.dronestask.dto.BatteryLevelDTO;
@@ -45,7 +46,7 @@ public class DispatchController {
     }
 
     @PostMapping("/drone/load")
-    public ResponseEntity<DroneDTO> loadDrone(@RequestBody MedicationRequest medicationRequest){
+    public ResponseEntity<DroneDTO> loadDrone(@Valid @RequestBody MedicationRequest medicationRequest){
         DroneResponse droneResponse = droneService.loadDrone(medicationRequest);
         DroneDTO droneDTO = DroneDTO.fromDTO(droneResponse.drone());
         return ResponseEntity.ok(droneDTO);

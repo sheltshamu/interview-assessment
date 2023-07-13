@@ -17,10 +17,12 @@ import zw.co.sheltons.dronestask.model.enums.State;
 public class Drone extends BaseEntity {
     @Column(name = "serial_number", unique = true, length = 80)
     private String serialNumber;
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private Model model;
     @Column(name = "battery_level", nullable = false)
     private int batteryLevel;
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private State state;
     @Column(name = "weight_limit",nullable = false)

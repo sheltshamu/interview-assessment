@@ -71,6 +71,8 @@ public class DroneServiceImpl implements DroneService {
     @Transactional
     @Override
     public DroneResponse loadDrone(MedicationRequest medicationRequest) {
+        log.info("DroneServiceImpl::loadDrone started executing load drone");
+        LocalDateTime currentDateTime = LocalDateTime.now();
         ImageResponse imageResponse = imageService.uploadImage(medicationRequest.getImage());
         Drone drone = findById(medicationRequest.getDroneId());
         validateDroneCondition(drone, medicationRequest.getWeight());
@@ -80,9 +82,12 @@ public class DroneServiceImpl implements DroneService {
         medication.setCode(medicationRequest.getCode().toUpperCase());
         medication.setWeight(medicationRequest.getWeight());
         medication.setImage(imageResponse.image());
+        medication.setDateCreated(currentDateTime);
+        medication.setDateModified(LocalDateTime.now());
         medicationRepository.save(medication);
         drone.setCurrentWeight(drone.getCurrentWeight() + medicationRequest.getWeight());
         stateChanges(drone);
+        log.info("DroneServiceImpl::loadDrone finished executing load drone");
         return new DroneResponse(drone);
     }
 
@@ -104,6 +109,7 @@ public class DroneServiceImpl implements DroneService {
     }
 
     private void validateDroneCondition(Drone drone, int weight) {
+        log.info("DroneServiceImpl::validateDroneCondition started validating drone conditions");
         if (drone.getBatteryLevel() < BATTERY_LOW_LEVEL) {
             throw new BadRequestException("Drone battery level must not be less than {0}%", BATTERY_LOW_LEVEL);
         }
@@ -115,6 +121,7 @@ public class DroneServiceImpl implements DroneService {
             throw new BadRequestException("Medication weight must not exceed drone weight limit {0}",
                     drone.getWeightLimit());
         }
+        log.info("DroneServiceImpl::validateDroneCondition finished validating drone conditions");
     }
 
 }
