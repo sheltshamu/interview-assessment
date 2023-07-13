@@ -26,3 +26,6 @@ server:
   servlet:
     context-path: /api
 
+battery:
+  check:
+    delay: 60000

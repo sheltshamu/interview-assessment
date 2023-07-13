@@ -19,11 +19,12 @@ import java.util.List;
 public class BatteryCheckJob {
     private final DroneRepository droneRepository;
 
+
     public BatteryCheckJob(DroneRepository droneRepository) {
         this.droneRepository = droneRepository;
     }
 
-    @Scheduled(fixedDelay = 60000)
+    @Scheduled(fixedDelayString = "${battery.check.delay}")
     public void checkBatteryLevels(){
         log.info("BatteryCheckJob::checkBatteryLevels executing check battery level job");
         List<Drone> drones = droneRepository.findAll();
