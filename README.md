@@ -19,7 +19,7 @@ For building and running the application you need:
 ## Execution
 Open a terminal at the root of the project and run the following command:
 ```
-java -jar target/drones-0.0.1-SNAPSHOT.jar
+java -jar target/drones-task-0.0.1-SNAPSHOT.jar
 ```
 
 # Documentaion
