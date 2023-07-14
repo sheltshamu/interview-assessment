@@ -65,5 +65,10 @@ java -jar target/drones-0.0.1-SNAPSHOT.jar
     ```bash
     curl --location --request GET 'http://localhost:8081/api/v1/1/battery'
     ```
-5. Postman Collection
+5. Get Loaded Medication by droneId
+    ```bash
+    curl --location --request GET 'http://localhost:8081/api/v1/loaded-items/1'
+    ```
+
+6. Postman Collection
     - Begin by launching the Postman application and proceed to import the collection using the provided link: https://api.postman.com/collections/28272422-334ea267-3e52-476b-b802-d1df4b2270e5?access_key=PMAT-01H5A8JTB7ABXNE87F62DX6JAM. Subsequently, utilize the imported collection to execute thorough testing of the RESTful APIs.
